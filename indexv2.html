@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Black November • Empreendimentos</title>
+<style>
+  :root{
+    --bg: #0b0c10;
+    --bg-soft:#11141a;
+    --panel:#141923;
+    --text:#e9edf5;
+    --muted:#a9b1c3;
+    --primary:#ffd54a;       /* dourado */
+    --accent:#ff2e2e;        /* vermelho selo */
+    --line:#232a38;
+    --chip:#1b2231;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --rad-xl:22px; --rad-lg:16px; --rad-md:12px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background: var(--bg);
+    color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    line-height:1.55;
+  }
+  img{max-width:100%; display:block}
+  a{color:inherit; text-decoration:none}
+
+  .container{ width:min(1120px, 100%); padding: clamp(16px, 3.6vw, 28px); margin:0 auto }
+
+  /* HEADER */
+  .topbar{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding-block:8px }
+  .brand{ display:flex; gap:10px; align-items:center; font-weight:900; letter-spacing:.3px }
+  .badge-logo{
+    width:40px; height:40px; border-radius:12px; box-shadow: var(--shadow);
+    display:grid; place-items:center; color:#111; font-weight:900;
+    background: conic-gradient(from 210deg, var(--primary), #ffb21a, #ffe58c, var(--primary));
+  }
+  .ribbon{
+    background:linear-gradient(180deg,#ff6b6b,var(--accent)); color:#fff; font-weight:900;
+    padding:7px 10px; border-radius:10px; font-size:12px; box-shadow:0 6px 20px rgba(255,46,46,.4);
+  }
+  .chip{ background:var(--chip); color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:7px 12px; font-size:13px }
+
+  /* LP LONGA — BLOCO DE EMPREENDIMENTO */
+  .block{
+    position:relative; border:1px solid var(--line); border-radius: var(--rad-xl);
+    background:
+      radial-gradient(900px 200px at 85% -10%, rgba(255,213,74,.15), transparent 60%),
+      radial-gradient(800px 200px at 10% 110%, rgba(255,46,46,.12), transparent 60%),
+      linear-gradient(145deg, #0f141e, #0b1018);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    margin-top: 18px;
+  }
+  .block-grid{
+    display:grid; gap:0; grid-template-columns:1fr;
+  }
+  @media (min-width: 900px){
+    .block-grid{ grid-template-columns: 1.15fr .85fr }
+  }
+  .block-info{ padding: clamp(18px, 3.2vw, 28px) }
+  .block-media{
+    padding: clamp(14px, 2.6vw, 20px);
+    border-left:1px solid var(--line);
+    background:
+      linear-gradient(135deg, rgba(255,213,74,.06), rgba(255,46,46,.06)),
+      linear-gradient(145deg,#101623,#0d121c);
+  }
+  .media-frame{
+    height: 240px; border:1px dashed #2a3346; border-radius: 14px; display:grid; place-items:center;
+    color:var(--muted); background: linear-gradient(180deg,#0b1119,#0a0f16);
+  }
+  @media (min-width:540px){ .media-frame{ height:300px } }
+
+  .eyebrow{ color:var(--muted); font-size:13px; margin-bottom:6px }
+  .title{
+    margin:0; font-weight:900; line-height:1.08;
+    font-size: clamp(22px, 5vw, 40px);
+  }
+  .title .accent{ background: linear-gradient(90deg, var(--primary), #ffe58c); -webkit-background-clip:text; background-clip:text; color:transparent }
+  .subtitle{ color:var(--muted); margin: 8px 0 14px; font-size: clamp(14px, 2.5vw, 16px) }
+
+  .pills{ display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 16px }
+  .pill{ background:#0f141d; border:1px solid var(--line); color:var(--text); font-size:13px; padding:8px 12px; border-radius:999px }
+
+  .price{
+    border:1px solid var(--line); background:#0f141d; border-radius:14px; padding:12px;
+  }
+  .price-row{ display:flex; flex-wrap:wrap; align-items:baseline; gap:8px }
+  .de{ color:var(--muted); text-decoration:line-through; font-size:14px }
+  .por{ font-weight:900; font-size:22px; background:linear-gradient(90deg,var(--primary),#ffe58c); -webkit-background-clip:text; background-clip:text; color:transparent }
+  .label{ margin-left:auto; font-size:12px; font-weight:900; background:#201218; border:1px solid #3a1b24; color:#ff9aa6; padding:6px 8px; border-radius:8px }
+  .cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+  .btn{
+    border:none; cursor:pointer; border-radius:14px; padding:12px 16px; font-weight:800; letter-spacing:.2px;
+    box-shadow: var(--shadow); transition: transform .12s ease, filter .2s ease;
+  }
+  .btn:active{ transform: translateY(1px) scale(.99) }
+  .btn-primary{ background:linear-gradient(180deg,#ffe17a,var(--primary)); color:#111; border:1px solid #e7c23d }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--line) }
+
+  /* SEPARADOR ENTRE EMPREENDIMENTOS */
+  .separator{
+    margin: 24px auto 8px;
+    display:grid; gap:8px; align-items:center; justify-items:center;
+  }
+  .sep-stripes{
+    height: 10px; width: 100%;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,213,74,.25) 0 10px, transparent 10px 20px),
+      linear-gradient(90deg, #0f141d, #0b1018);
+    border:1px solid var(--line); border-radius:999px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .sep-chip{
+    font-size:12px; font-weight:900; letter-spacing:.2px;
+    background: #0f141d; border:1px solid var(--line); color:var(--muted);
+    padding:6px 10px; border-radius:999px;
+  }
+
+  /* CONTATO */
+  .contact{ margin-top: 30px; border:1px solid var(--line); border-radius: var(--rad-xl); overflow:hidden; background:linear-gradient(145deg,#101623,#0d121c); box-shadow: var(--shadow) }
+  .contact-grid{ display:grid; grid-template-columns:1fr; }
+  @media (min-width: 900px){ .contact-grid{ grid-template-columns:1.1fr .9fr } }
+  .contact-media{ padding: clamp(18px, 3vw, 26px); border-right:1px solid var(--line) }
+  .contact-media h3{ margin:0 0 6px; font-size: clamp(18px, 4vw, 26px); font-weight:900 }
+  .contact-media p{ margin:0; color:var(--muted) }
+  .contact-form{ padding: clamp(16px, 3vw, 24px) }
+  label{ display:block; font-size:13px; color:var(--muted); margin:2px 2px 6px }
+  input, select, textarea{
+    width:100%; padding:12px; border-radius:12px; border:1px solid var(--line); background:#0e121b; color:var(--text);
+    outline:none; transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus, select:focus, textarea:focus{ border-color:#33405a; box-shadow:0 0 0 3px rgba(255,213,74,.15) }
+  .row{ display:grid; gap:10px }
+  .row.two{ grid-template-columns:1fr }
+  @media (min-width:680px){ .row.two{ grid-template-columns:1fr 1fr } }
+  .submit{ display:flex; justify-content:flex-end; align-items:center; gap:10px; margin-top:12px }
+  .notice{ font-size:12px; color:var(--muted) }
+
+  /* FOOTER */
+  .footer{ margin-top:24px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px }
+
+  /* Ancoragem fixa (mobile-friendly) */
+  .floating-bar{
+    position:sticky; bottom:0; z-index:50; backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(11,12,16,.0), rgba(11,12,16,.75));
+    padding: 10px 0;
+  }
+  .floating-inner{ display:flex; gap:10px; justify-content:center }
+  .floating-inner .btn{ padding:11px 14px; border-radius:12px }
+
+  /* motion */
+  @media (prefers-reduced-motion:no-preference){
+    .btn:hover{ filter:brightness(1.04) }
+  }
+</style>
+</head>
+<body>
+
+<header class="container">
+  <div class="topbar">
+    <div class="brand">
+      <div class="badge-logo">BN</div>
+      <div>
+        <div style="font-size:14px; color:var(--muted); line-height:1">Black November</div>
+        <div style="font-size:18px; font-weight:900; line-height:1.1">Empreendimentos Selecionados</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+      <span class="chip">Condições por tempo limitado</span>
+      <span class="ribbon">Descontos Exclusivos</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ===== BLOCO 1 ===== -->
+  <section id="recreio-casa" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Recreio • Condomínio de casas</div>
+        <h1 class="title">
+          Casa com <span class="accent">4 suítes</span> • 306,22m² • Segurança 24h
+        </h1>
+        <p class="subtitle">Condomínio com lazer completo, sol da manhã e infraestrutura premium. Unidade Bianco – Casa 15.</p>
+
+        <div class="pills">
+          <span class="pill">Piscina</span>
+          <span class="pill">Quadra</span>
+          <span class="pill">Varanda</span>
+          <span class="pill">Sol da manhã</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 1.999.800</span>
+            <span class="por">por R$ 1.849.000*</span>
+            <span class="label">- R$ 150.800</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Casa 4 suítes (Recreio)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('Casa 4 suítes (Recreio)')">Quero detalhes</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Planta do empreendimento</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="separator">
+    <div class="sep-stripes"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ===== BLOCO 2 ===== -->
+  <section id="freguesia-82" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Freguesia • Apartamento</div>
+        <h2 class="title">3 quartos (1 suíte) • 82,5m² • 1 vaga • Lazer completo</h2>
+        <p class="subtitle">Condomínio com portaria 24h, área de lazer e excelente custo-benefício. Unidade 504.02.</p>
+
+        <div class="pills">
+          <span class="pill">Portaria 24h</span>
+          <span class="pill">Varanda</span>
+          <span class="pill">Pronto para morar</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 518.500</span>
+            <span class="por">por R$ 489.000*</span>
+            <span class="label">- R$ 29.500</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('3q 82,5m² (Freguesia)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('3q 82,5m² (Freguesia)')">Simular</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Fachada</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="separator">
+    <div class="sep-stripes"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ===== BLOCO 3 ===== -->
+  <section id="freguesia-94" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Freguesia • 3 quartos</div>
+        <h2 class="title">94m² • Closet • 2 banheiros + lavabo • Varanda Gourmet</h2>
+        <p class="subtitle">Melhor ponto da Freguesia, lazer completo e planta moderna. Unidade 304.</p>
+
+        <div class="pills">
+          <span class="pill">Lazer completo</span>
+          <span class="pill">Varanda gourmet</span>
+          <span class="pill">Localização privilegiada</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 825.300</span>
+            <span class="por">por R$ 759.000*</span>
+            <span class="label">- R$ 66.300</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('3q 94m² (Freguesia)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('3q 94m² (Freguesia)')">Quero detalhes</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Planta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="separator">
+    <div class="sep-stripes"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ===== BLOCO 4 ===== -->
+  <section id="barra-450" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Barra da Tijuca • Sala comercial</div>
+        <h2 class="title">450m² • 7 vagas • Em frente ao Península • Alugada até 2028</h2>
+        <p class="subtitle">Renda mensal contratada de R$ 27.145. Conjunto Evolution II • 402.03.</p>
+
+        <div class="pills">
+          <span class="pill">Renda imediata</span>
+          <span class="pill">Localização premium</span>
+          <span class="pill">7 vagas</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 3.544.700</span>
+            <span class="por">por R$ 3.289.000*</span>
+            <span class="label">- R$ 255.700</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Sala 450m² (Barra)')">Contato comercial</button>
+          <button class="btn btn-ghost" onclick="goContato('Sala 450m² (Barra)')">Quero analisar</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Layout</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="separator">
+    <div class="sep-stripes"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ===== BLOCO 5 ===== -->
+  <section id="tijuca-260" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Tijuca • Centro corporativo</div>
+        <h2 class="title">Sala 260m² • 16 vagas • Auditório para eventos</h2>
+        <p class="subtitle">Conjunto 904 + 905. Localização estratégica, próximo ao metrô, com infraestrutura corporativa.</p>
+
+        <div class="pills">
+          <span class="pill">16 vagas</span>
+          <span class="pill">Auditório</span>
+          <span class="pill">Próximo ao metrô</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 567.100</span>
+            <span class="por">por R$ 495.000*</span>
+            <span class="label">- R$ 72.100</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Sala 260m² (Tijuca)')">Solicitar proposta</button>
+          <button class="btn btn-ghost" onclick="goContato('Sala 260m² (Tijuca)')">Ver especificações</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Auditório</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="separator">
+    <div class="sep-stripes"></div>
+    <div class="sep-chip">Último empreendimento</div>
+  </div>
+
+  <!-- ===== BLOCO 6 ===== -->
+  <section id="jacare-318" class="block">
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="eyebrow">Jacarepaguá • Loja • MAP BAND</div>
+        <h2 class="title">318m² • Melhor custo-benefício do bairro</h2>
+        <p class="subtitle">Ao lado do RioCentro, ponto comercial forte. Unidade 1.032.</p>
+
+        <div class="pills">
+          <span class="pill">Ponto consolidado</span>
+          <span class="pill">Vitrine ampla</span>
+          <span class="pill">Fluxo intenso</span>
+        </div>
+
+        <div class="price">
+          <div class="price-row">
+            <span class="de">de R$ 3.878.000</span>
+            <span class="por">por R$ 3.490.000*</span>
+            <span class="label">- R$ 388.000</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Loja 318m² (Jacarepaguá)')">Quero visitar</button>
+          <button class="btn btn-ghost" onclick="goContato('Loja 318m² (Jacarepaguá)')">Detalhes</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Fachada</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BARRA FLOTANTE -->
+  <div class="floating-bar">
+    <div class="container">
+      <div class="floating-inner">
+        <button class="btn btn-primary" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Falar com um consultor</button>
+        <button class="btn btn-ghost" onclick="window.scrollTo({top:0, behavior:'smooth'})">Voltar ao topo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTATO -->
+  <section class="contact" id="contato">
+    <div class="contact-grid">
+      <div class="contact-media">
+        <h3>Fale com um consultor</h3>
+        <p>Receba disponibilidade, condições e simulações de financiamento. Atendimento rápido no horário comercial.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px">
+          <span class="chip">Sem compromisso</span>
+          <span class="chip">Resposta ágil</span>
+          <span class="chip">Black November</span>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="return fakeSubmit(event)">
+        <div class="row two">
+          <div>
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" required placeholder="Ex.: Maria Silva" />
+          </div>
+          <div>
+            <label for="fone">Telefone / WhatsApp</label>
+            <input id="fone" name="fone" required placeholder="(DDD) 90000-0000" />
+          </div>
+        </div>
+        <div class="row two" style="margin-top:10px">
+          <div>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" required placeholder="voce@email.com" />
+          </div>
+          <div>
+            <label for="interesse">Empreendimento de interesse</label>
+            <select id="interesse" name="interesse">
+              <option value="">Selecione…</option>
+              <option>Casa 4 suítes (Recreio)</option>
+              <option>3q 82,5m² (Freguesia)</option>
+              <option>3q 94m² (Freguesia)</option>
+              <option>Sala 450m² (Barra)</option>
+              <option>Sala 260m² (Tijuca)</option>
+              <option>Loja 318m² (Jacarepaguá)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label for="msg">Mensagem (opcional)</label>
+            <textarea id="msg" name="msg" rows="4" placeholder="Conte rapidamente o que você procura."></textarea>
+            <div class="notice" style="margin-top:6px">*Sujeito à disponibilidade e alteração de preços sem aviso prévio.</div>
+          </div>
+        </div>
+        <div class="submit">
+          <span class="notice">Responderemos no próximo horário útil.</span>
+          <button class="btn btn-primary" type="submit">Quero ser contatado</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>© Black November — Empreendimentos</span>
+    <span>Condições promocionais até 30/11/2025.</span>
+  </footer>
+</main>
+
+<script>
+  // Preenche automaticamente o select com o interesse ao clicar nas CTAs
+  function goContato(valor){
+    const select = document.getElementById('interesse');
+    if(select){
+      select.value = valor || '';
+    }
+    document.getElementById('contato').scrollIntoView({behavior:'smooth'});
+  }
+  // Formulário fake (sem envio)
+  function fakeSubmit(e){
+    e.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const interesse = document.getElementById('interesse').value;
+    const msg = [
+      'Sua solicitação foi registrada ✅',
+      nome ? 'Nome: ' + nome : null,
+      interesse ? 'Interesse: ' + interesse : null,
+      '',
+      'Um consultor entrará em contato no próximo horário útil.'
+    ].filter(Boolean).join('\\n');
+    alert(msg);
+    e.target.reset();
+    return false;
+  }
+</script>
+</body>
+</html>

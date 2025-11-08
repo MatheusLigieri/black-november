@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Black November — Empreendimentos</title>
+<style>
+/* ===========================
+   PALETA E TOKENS DE ESTILO
+   =========================== */
+:root{
+  --black: #0a0b0e;
+  --black-2: #0f1116;
+  --ink: #12151d;
+  --panel: #151a25;
+  --soft: #0e131d;
+  --text: #f1f4fb;
+  --muted: #a9b2c6;
+  --gold: #ffd54a;        /* destaque PDF */
+  --gold-2: #ffe58c;
+  --red:  #ff2e2e;        /* selo desconto */
+  --line: #252d3c;
+  --chip: #1b2232;
+  --ok:   #2ecc71;
+
+  --shadow: 0 12px 34px rgba(0,0,0,.36);
+  --r-xl: 24px; --r-lg: 18px; --r-md: 14px; --r-sm: 10px;
+}
+
+/* Reset básico */
+*{ box-sizing: border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  background:
+    radial-gradient(1200px 600px at 90% -10%, #192132 0%, var(--black) 60%),
+    radial-gradient(900px 400px at -10% 110%, #101623 0%, var(--black) 60%),
+    var(--black);
+  color: var(--text);
+  line-height: 1.55;
+}
+a{ color: inherit; text-decoration: none }
+img{ max-width:100%; display:block }
+
+/* Container */
+.container{ width:min(1160px, 100%); padding: clamp(14px, 3.4vw, 28px); margin: 0 auto }
+
+/* ===========================
+   CABEÇALHO — faixa Black November
+   =========================== */
+.header{
+  position: relative;
+  border:1px solid var(--line);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, var(--ink), var(--black-2));
+  box-shadow: var(--shadow);
+}
+.header-top{
+  display:grid; grid-template-columns: 1fr auto; gap:14px; align-items:center;
+  padding: clamp(14px, 3vw, 20px);
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+}
+.brand-badge{
+  width:44px; height:44px; border-radius:12px; font-weight:900; color:#111;
+  background: conic-gradient(from 210deg, var(--gold), #ffb21a, var(--gold-2), var(--gold));
+  display:grid; place-items:center; box-shadow: var(--shadow);
+}
+.brand h1{
+  margin:0; line-height:1.05; letter-spacing:.3px;
+  font-size: clamp(18px, 4.6vw, 28px);
+}
+.brand small{ color: var(--muted); display:block; font-weight:600; font-size: 12px }
+
+.header-right{
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+.ribbon{
+  background: linear-gradient(180deg, #ff6b6b, var(--red));
+  color:#fff; font-weight:900; font-size:12px;
+  padding:7px 10px; border-radius:10px; box-shadow: 0 8px 24px rgba(255,46,46,.5);
+}
+.chip{
+  background: var(--chip); color: var(--muted);
+  border:1px solid var(--line); border-radius:999px; padding:7px 12px; font-size:13px
+}
+
+/* Faixa listrada diagonal (igual separadores do PDF) */
+.header-stripe, .sep-stripe{
+  height: 14px; width: 100%;
+  background:
+    repeating-linear-gradient( -45deg,
+      rgba(0,0,0,.94) 0 24px,
+      rgba(0,0,0,.94) 0 24px,
+      rgba(255,213,74,.95) 24px 48px
+    );
+  border-top:1px solid #000;
+  border-bottom:1px solid #000;
+}
+
+/* ===========================
+   BLOCO DE EMPREENDIMENTO
+   =========================== */
+.block{
+  position:relative; overflow:hidden; margin-top: 22px;
+  border:1px solid var(--line); border-radius: var(--r-xl);
+  background:
+    radial-gradient(900px 180px at 80% -10%, rgba(255,213,74,.16), transparent 60%),
+    radial-gradient(900px 180px at 0% 110%, rgba(255,46,46,.12), transparent 60%),
+    linear-gradient(145deg, #0f141f, #0b1018);
+  box-shadow: var(--shadow);
+}
+.block-head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(255,213,74,.10), rgba(255,213,74,0));
+  border-bottom:1px solid var(--line);
+}
+.block-title{
+  margin:0; line-height:1.08; letter-spacing:.2px;
+  font-weight: 950;
+  font-size: clamp(18px, 4.6vw, 26px);
+}
+.block-sub{ color: var(--muted); font-size: 13px }
+
+.block-grid{
+  display:grid; gap:0; grid-template-columns: 1fr;
+}
+@media (min-width: 980px){
+  .block-grid{ grid-template-columns: 1.25fr .95fr }
+}
+
+.block-info{ padding: clamp(16px, 3.2vw, 26px) }
+.block-media{
+  padding: clamp(14px, 2.6vw, 20px);
+  border-left:1px solid var(--line);
+  background: linear-gradient(145deg, #0f151f, #0d121a);
+}
+.media-frame{
+  height: 260px; border:1px dashed #2a3346; border-radius: 14px;
+  display:grid; place-items:center; color:var(--muted);
+  background:
+    linear-gradient(180deg, #0b1119, #090f16);
+}
+@media (min-width:560px){ .media-frame{ height: 320px } }
+
+/* Etiquetas e lista de benefícios no estilo do folheto */
+.meta{
+  display:flex; flex-wrap:wrap; gap:10px; margin-bottom: 12px;
+}
+.meta .tag{
+  background:#0f141d; color:var(--text);
+  border:1px solid var(--line); border-radius:999px; padding:7px 12px; font-size:13px; font-weight:700;
+}
+
+/* Box de preço DE / POR com selo vermelho */
+.price{
+  margin-top: 8px;
+  border:1px solid var(--line); border-radius: 14px;
+  background: #0f141d; padding: 12px;
+}
+.row-price{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px;
+}
+.de{ color: var(--muted); text-decoration: line-through; font-size: 15px; font-weight: 700 }
+.por{
+  font-weight: 1000; font-size: clamp(20px, 4.2vw, 26px);
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  letter-spacing:.3px;
+}
+.selo{
+  margin-left:auto; font-size:12px; font-weight:900;
+  background: linear-gradient(180deg, #ff6b6b, var(--red));
+  color:#fff; padding: 7px 10px; border-radius: 10px; box-shadow: 0 8px 20px rgba(255,46,46,.4);
+  border: 1px solid #b31f2a;
+}
+
+/* CTAs */
+.cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 12px }
+.btn{
+  border:none; cursor:pointer; border-radius: 14px; padding: 12px 16px;
+  font-weight: 900; letter-spacing:.2px; box-shadow: var(--shadow);
+  transition: transform .12s ease, filter .2s ease;
+}
+.btn:active{ transform: translateY(1px) scale(.99) }
+.btn-primary{ background: linear-gradient(180deg, #ffe37f, var(--gold)); color:#111; border:1px solid #e7c23d }
+.btn-ghost{ background: transparent; color: var(--text); border:1px solid var(--line) }
+
+/* Separadores entre blocos — faixa listrada + chip */
+.sep{
+  margin: 22px 0 8px; display:grid; gap:8px; justify-items:center;
+}
+.sep-stripe{ border-radius:999px; box-shadow: inset 0 1px 0 rgba(255,255,255,.05) }
+.sep-chip{
+  font-size:12px; font-weight:900; letter-spacing:.2px;
+  background:#0f141d; border:1px solid var(--line); color:var(--muted);
+  padding:6px 10px; border-radius:999px;
+}
+
+/* ===========================
+   CONTATO (fiel ao folheto: coluna texto + coluna formulário)
+   =========================== */
+.contact{
+  margin-top: 28px;
+  border:1px solid var(--line); border-radius: var(--r-xl);
+  background: linear-gradient(145deg, #101623, #0d121c); box-shadow: var(--shadow); overflow:hidden;
+}
+.contact-grid{ display:grid; grid-template-columns: 1fr }
+@media (min-width: 980px){ .contact-grid{ grid-template-columns: 1.15fr .85fr } }
+.contact-info{ padding: clamp(16px, 3vw, 26px); border-right:1px solid var(--line) }
+.contact-info h3{ margin:0 0 6px; font-size: clamp(18px, 4vw, 26px); font-weight: 1000; letter-spacing:.2px }
+.contact-info p{ margin:0; color: var(--muted) }
+.contact-badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+.form{ padding: clamp(16px, 3vw, 26px) }
+label{ display:block; font-size:13px; color:var(--muted); margin: 2px 2px 6px; font-weight:700 }
+input, select, textarea{
+  width:100%; padding: 12px; border-radius: 12px; outline:none;
+  border:1px solid var(--line); background:#0e121b; color: var(--text);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, select:focus, textarea:focus{
+  border-color:#34435f; box-shadow: 0 0 0 3px rgba(255,213,74,.16)
+}
+.row{ display:grid; gap:10px }
+.row.two{ grid-template-columns: 1fr }
+@media (min-width: 680px){ .row.two{ grid-template-columns: 1fr 1fr } }
+.form-foot{ display:flex; align-items:center; justify-content:flex-end; gap:10px; margin-top: 12px }
+.notice{ font-size:12px; color: var(--muted) }
+
+/* ===========================
+   RODAPÉ
+   =========================== */
+.footer{
+  margin-top: 24px; padding-top: 16px;
+  border-top:1px solid var(--line);
+  color: var(--muted);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+
+/* Barra fixa de ação (mobile) */
+.fab{
+  position: sticky; bottom:0; z-index:40;
+  background: linear-gradient(180deg, rgba(10,11,14,0), rgba(10,11,14,.78));
+  padding: 10px 0;
+}
+.fab-inner{ display:flex; gap:10px; justify-content:center }
+.fab-inner .btn{ border-radius: 12px; padding: 11px 14px }
+
+/* Hover suave */
+@media (prefers-reduced-motion:no-preference){
+  .btn:hover{ filter: brightness(1.04) }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="container header" aria-label="Black November">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-badge">BN</div>
+      <div>
+        <h1>BLACK NOVEMBER <small>Empreendimentos Selecionados</small></h1>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="chip">Condições por tempo limitado</span>
+      <span class="ribbon">Descontos Exclusivos</span>
+    </div>
+  </div>
+  <div class="header-stripe" aria-hidden="true"></div>
+</header>
+
+<main class="container">
+
+  <!-- ============ BLOCO 1 ============ -->
+  <section id="recreio" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Recreio • Condomínio de casas</h2>
+      <div class="block-sub">Unidade Bianco — Casa 15</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">4 suítes</span>
+          <span class="tag">306,22m²</span>
+          <span class="tag">Segurança 24h</span>
+          <span class="tag">Piscina • Quadra • Varanda</span>
+        </div>
+
+        <div class="price" role="group" aria-label="Tabela de preço">
+          <div class="row-price">
+            <span class="de">DE R$ 1.999.800</span>
+            <span class="por">POR R$ 1.849.000*</span>
+            <span class="selo">– R$ 150.800</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Casa 4 suítes (Recreio)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('Casa 4 suítes (Recreio)')">Ver detalhes</button>
+        </div>
+      </div>
+
+      <div class="block-media">
+        <div class="media-frame">Imagem / Planta do condomínio</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="sep" aria-hidden="true">
+    <div class="sep-stripe"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ============ BLOCO 2 ============ -->
+  <section id="freguesia-82" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Freguesia • Apartamento</h2>
+      <div class="block-sub">Unidade 504.02</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">3 quartos (1 suíte)</span>
+          <span class="tag">82,5m²</span>
+          <span class="tag">1 vaga</span>
+          <span class="tag">Lazer completo • Varanda</span>
+        </div>
+
+        <div class="price">
+          <div class="row-price">
+            <span class="de">DE R$ 518.500</span>
+            <span class="por">POR R$ 489.000*</span>
+            <span class="selo">– R$ 29.500</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('3q 82,5m² (Freguesia)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('3q 82,5m² (Freguesia)')">Simular</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Fachada</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="sep" aria-hidden="true">
+    <div class="sep-stripe"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ============ BLOCO 3 ============ -->
+  <section id="freguesia-94" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Freguesia • 3 quartos</h2>
+      <div class="block-sub">Unidade 304</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">94m²</span>
+          <span class="tag">Closet</span>
+          <span class="tag">2 banheiros + lavabo</span>
+          <span class="tag">Varanda Gourmet</span>
+        </div>
+
+        <div class="price">
+          <div class="row-price">
+            <span class="de">DE R$ 825.300</span>
+            <span class="por">POR R$ 759.000*</span>
+            <span class="selo">– R$ 66.300</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('3q 94m² (Freguesia)')">Tenho interesse</button>
+          <button class="btn btn-ghost" onclick="goContato('3q 94m² (Freguesia)')">Quero detalhes</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Planta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="sep" aria-hidden="true">
+    <div class="sep-stripe"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ============ BLOCO 4 ============ -->
+  <section id="barra-450" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Barra da Tijuca • Sala comercial</h2>
+      <div class="block-sub">Evolution II — 402.03</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">450m²</span>
+          <span class="tag">7 vagas</span>
+          <span class="tag">Em frente ao Península</span>
+          <span class="tag">Alugada até 2028</span>
+        </div>
+
+        <div class="price">
+          <div class="row-price">
+            <span class="de">DE R$ 3.544.700</span>
+            <span class="por">POR R$ 3.289.000*</span>
+            <span class="selo">– R$ 255.700</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Sala 450m² (Barra)')">Contato comercial</button>
+          <button class="btn btn-ghost" onclick="goContato('Sala 450m² (Barra)')">Quero analisar</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Layout</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="sep" aria-hidden="true">
+    <div class="sep-stripe"></div>
+    <div class="sep-chip">Próximo empreendimento</div>
+  </div>
+
+  <!-- ============ BLOCO 5 ============ -->
+  <section id="tijuca-260" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Tijuca • Centro corporativo</h2>
+      <div class="block-sub">Salas 904 + 905 (conjunto)</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">260m²</span>
+          <span class="tag">16 vagas</span>
+          <span class="tag">Auditório</span>
+          <span class="tag">Próximo ao metrô</span>
+        </div>
+
+        <div class="price">
+          <div class="row-price">
+            <span class="de">DE R$ 567.100</span>
+            <span class="por">POR R$ 495.000*</span>
+            <span class="selo">– R$ 72.100</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Sala 260m² (Tijuca)')">Solicitar proposta</button>
+          <button class="btn btn-ghost" onclick="goContato('Sala 260m² (Tijuca)')">Ver especificações</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Auditório</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEPARADOR -->
+  <div class="sep" aria-hidden="true">
+    <div class="sep-stripe"></div>
+    <div class="sep-chip">Último empreendimento</div>
+  </div>
+
+  <!-- ============ BLOCO 6 ============ -->
+  <section id="jacarepagua-318" class="block">
+    <div class="block-head">
+      <h2 class="block-title">Jacarepaguá • Loja • MAP BAND</h2>
+      <div class="block-sub">Unidade 1.032</div>
+    </div>
+    <div class="block-grid">
+      <div class="block-info">
+        <div class="meta">
+          <span class="tag">318m²</span>
+          <span class="tag">Melhor custo-benefício</span>
+          <span class="tag">Ao lado do RioCentro</span>
+          <span class="tag">Ponto comercial forte</span>
+        </div>
+
+        <div class="price">
+          <div class="row-price">
+            <span class="de">DE R$ 3.878.000</span>
+            <span class="por">POR R$ 3.490.000*</span>
+            <span class="selo">– R$ 388.000</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="goContato('Loja 318m² (Jacarepaguá)')">Quero visitar</button>
+          <button class="btn btn-ghost" onclick="goContato('Loja 318m² (Jacarepaguá)')">Detalhes</button>
+        </div>
+      </div>
+      <div class="block-media">
+        <div class="media-frame">Imagem / Fachada</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barra fixa de ação (mobile) -->
+  <div class="fab">
+    <div class="container">
+      <div class="fab-inner">
+        <button class="btn btn-primary" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Fale com um consultor</button>
+        <button class="btn btn-ghost" onclick="window.scrollTo({top:0, behavior:'smooth'})">Voltar ao topo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTATO -->
+  <section id="contato" class="contact" aria-label="Formulário de contato">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Fale com um consultor</h3>
+        <p>Receba disponibilidade, condições e simulações de financiamento. Atendimento rápido e sem compromisso.</p>
+        <div class="contact-badges">
+          <span class="chip">Black November</span>
+          <span class="chip">Resposta ágil</span>
+          <span class="chip">Horário comercial</span>
+        </div>
+      </div>
+      <form class="form" onsubmit="return fakeSubmit(event)">
+        <div class="row two">
+          <div>
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" required placeholder="Ex.: Maria Silva" />
+          </div>
+          <div>
+            <label for="fone">Telefone / WhatsApp</label>
+            <input id="fone" name="fone" required placeholder="(DDD) 90000-0000" />
+          </div>
+        </div>
+
+        <div class="row two" style="margin-top:10px">
+          <div>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" required placeholder="voce@email.com" />
+          </div>
+          <div>
+            <label for="interesse">Empreendimento de interesse</label>
+            <select id="interesse" name="interesse">
+              <option value="">Selecione…</option>
+              <option>Casa 4 suítes (Recreio)</option>
+              <option>3q 82,5m² (Freguesia)</option>
+              <option>3q 94m² (Freguesia)</option>
+              <option>Sala 450m² (Barra)</option>
+              <option>Sala 260m² (Tijuca)</option>
+              <option>Loja 318m² (Jacarepaguá)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label for="msg">Mensagem (opcional)</label>
+            <textarea id="msg" name="msg" rows="4" placeholder="Conte rapidamente o que você procura."></textarea>
+            <div class="notice" style="margin-top:6px">*Sujeito à disponibilidade e alteração de preços sem aviso prévio.</div>
+          </div>
+        </div>
+
+        <div class="form-foot">
+          <span class="notice">Responderemos no próximo horário útil.</span>
+          <button class="btn btn-primary" type="submit">Quero ser contatado</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>© Black November — Empreendimentos</span>
+    <span>Válido até 30/11/2025.</span>
+  </footer>
+
+</main>
+
+<script>
+/* Preencher o select com o interesse de cada CTA */
+function goContato(valor){
+  const select = document.getElementById('interesse');
+  if(select){ select.value = valor || ''; }
+  document.getElementById('contato').scrollIntoView({behavior:'smooth'});
+}
+
+/* Formulário fake (sem envio) */
+function fakeSubmit(e){
+  e.preventDefault();
+  const nome = document.getElementById('nome').value.trim();
+  const interesse = document.getElementById('interesse').value;
+  const msg = [
+    'Sua solicitação foi registrada ✅',
+    nome ? 'Nome: ' + nome : null,
+    interesse ? 'Interesse: ' + interesse : null,
+    '',
+    'Um consultor entrará em contato no próximo horário útil.'
+  ].filter(Boolean).join('\\n');
+  alert(msg);
+  e.target.reset();
+  return false;
+}
+</script>
+</body>
+</html>

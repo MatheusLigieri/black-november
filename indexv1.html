@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Black November | Ofertas Imobiliárias</title>
+<style>
+  :root{
+    --bg: #0b0b0f;
+    --bg-soft: #11141a;
+    --card: #151923;
+    --text: #e9edf5;
+    --muted: #a8b0c2;
+    --primary: #ffd54a;   /* dourado/amarelo destaque */
+    --accent: #ff2e2e;    /* vermelho desconto */
+    --line: #242a37;
+    --chip: #1e2533;
+    --success: #2ecc71;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius-xl: 22px;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 10px;
+  }
+
+  *{ box-sizing: border-box }
+  html, body{ height:100% }
+  body{
+    margin:0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #1e2330 0%, var(--bg) 55%) fixed,
+                radial-gradient(1000px 600px at 0% 110%, #141926 0%, var(--bg) 50%) fixed,
+                var(--bg);
+    color:var(--text);
+    line-height:1.55;
+  }
+
+  a{ color:inherit; text-decoration:none }
+  img{ max-width:100%; display:block }
+  .container{
+    width: min(1120px, 100%);
+    padding: clamp(16px, 3.5vw, 28px);
+    margin: 0 auto;
+  }
+
+  /* Topbar */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; padding-block:8px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px; font-weight:800;
+    letter-spacing:.5px;
+  }
+  .brand-badge{
+    width:38px; height:38px; border-radius:10px;
+    background: conic-gradient(from 210deg, var(--primary), #ff9f1a, #f7ce4a, var(--primary));
+    display:grid; place-items:center; color:#111; font-weight:900;
+    box-shadow: var(--shadow);
+  }
+  .brand span{ font-size: clamp(18px, 3.4vw, 22px) }
+
+  .top-actions{ display:flex; gap:10px; align-items:center; }
+  .chip{
+    background: var(--chip);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 7px 12px; border-radius:999px; font-size:13px;
+  }
+
+  /* Hero */
+  .hero{
+    position:relative; overflow:hidden;
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(135deg, rgba(255,213,74,.08), rgba(255,46,46,.08)),
+      radial-gradient(1200px 400px at 80% 0%, rgba(255,213,74,.18), transparent 60%),
+      var(--bg-soft);
+    padding: clamp(22px, 4vw, 36px);
+    box-shadow: var(--shadow);
+    border:1px solid var(--line);
+  }
+  .hero-grid{
+    display:grid; gap:18px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 860px){
+    .hero-grid{
+      grid-template-columns: 1.4fr .9fr;
+      align-items: center;
+    }
+  }
+
+  .hero-title{
+    font-size: clamp(28px, 6vw, 48px);
+    line-height: 1.07;
+    margin: 0 0 8px;
+    font-weight: 900;
+    letter-spacing: .3px;
+  }
+  .title-accent{
+    background: linear-gradient(90deg, var(--primary), #ffe58c 60%, #fff2b2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  .subtitle{
+    color: var(--muted);
+    font-size: clamp(14px, 2.6vw, 16px);
+    margin: 0 0 14px;
+  }
+  .hero-pills{
+    display:flex; flex-wrap:wrap; gap:10px; margin: 14px 0 18px;
+  }
+  .pill{
+    background: #0f131d;
+    border:1px solid var(--line);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+  }
+  .cta-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    border:none; cursor:pointer; text-align:center;
+    font-weight: 800; letter-spacing:.2px;
+    border-radius: 14px; padding: 12px 16px;
+    transition: transform .12s ease, filter .2s ease, box-shadow .2s ease;
+    box-shadow: var(--shadow);
+  }
+  .btn-primary{
+    background: linear-gradient(180deg, #ffe17a, var(--primary));
+    color: #1a1a1a; border: 1px solid #e7c23d;
+  }
+  .btn-primary:active{ transform: translateY(1px) scale(.99) }
+  .btn-ghost{
+    background: transparent; color: var(--text);
+    border:1px solid var(--line);
+  }
+  .hero-figure{
+    border-radius: var(--radius-lg);
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:
+      radial-gradient(700px 180px at 50% 0%, rgba(255,213,74,.2), transparent 60%),
+      linear-gradient(145deg, #0f141f, #0c111a 60%, #0b0f16);
+    padding: clamp(14px, 2.6vw, 18px);
+  }
+  .figure-inner{
+    height: 260px;
+    border-radius: 14px;
+    border:1px dashed #2a3346;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,213,74,.1) 0 2px, transparent 2px 10px),
+      linear-gradient(180deg, #0c1018, #0a0e15);
+    display:grid; place-items:center;
+    color: var(--muted);
+    text-align:center;
+    padding: 14px;
+  }
+  @media (min-width: 540px){ .figure-inner{ height: 320px } }
+
+  /* Section heading */
+  .section-header{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin: 28px 0 10px;
+  }
+  .section-title{
+    font-size: clamp(18px, 4.4vw, 26px);
+    margin:0; font-weight:900;
+  }
+  .section-sub{ color: var(--muted); font-size: 14px }
+
+  /* Cards */
+  .grid{
+    display:grid; gap:14px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 680px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px){
+    .grid{ grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .card{
+    position:relative;
+    background: linear-gradient(180deg, #141a26, #121723);
+    border:1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow:hidden;
+    box-shadow: var(--shadow);
+    display:flex; flex-direction:column;
+  }
+  .card-media{
+    height: 170px; background:
+      linear-gradient(135deg, rgba(255,213,74,.08), rgba(255,46,46,.08)),
+      linear-gradient(145deg, #1a2130, #121722);
+  }
+  .badge{
+    position:absolute; top:12px; left:12px;
+    background: linear-gradient(180deg, #ff6b6b, var(--accent));
+    color: #fff; font-weight:900; font-size: 12px;
+    padding: 7px 10px; border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(255,46,46,.4);
+  }
+  .card-body{ padding: 14px }
+  .loc{
+    display:flex; align-items:center; gap:8px; color: var(--muted); font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .title{ margin: 0 0 6px; font-size: 17px; font-weight: 800 }
+  .features{
+    display:flex; flex-wrap:wrap; gap:8px; margin: 8px 0 10px;
+  }
+  .tag{
+    border:1px solid var(--line); border-radius:999px;
+    padding: 6px 10px; font-size: 12px; color: var(--text); background: #0f131d;
+  }
+  .price-box{
+    border:1px solid var(--line); background: #0f141d; border-radius: 12px;
+    padding: 10px; margin-top: 6px;
+  }
+  .price-row{
+    display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;
+  }
+  .de{
+    color: var(--muted);
+    text-decoration: line-through;
+    font-size: 14px; opacity:.9;
+  }
+  .por{
+    font-weight: 900; font-size: 20px;
+    background: linear-gradient(90deg, var(--primary), #ffe58c);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .discount{
+    margin-left:auto; font-size:12px; font-weight:900;
+    background: #201218; border:1px solid #3a1b24; color: #ff9aa6;
+    padding: 6px 8px; border-radius: 8px;
+  }
+  .card-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:10px; margin-top: 10px;
+  }
+  .btn-mini{
+    font-size: 13px; padding: 9px 12px; border-radius: 12px;
+    border:1px solid var(--line); background: transparent; color: var(--text);
+    cursor:pointer;
+  }
+  .btn-mini.primary{
+    background: linear-gradient(180deg, #ffe789, var(--primary));
+    color:#111; border:1px solid #e2c040; font-weight:800;
+  }
+
+  /* Form */
+  .contact{
+    margin-top: 28px;
+    background: linear-gradient(180deg, #141a26, #121723);
+    border:1px solid var(--line);
+    border-radius: var(--radius-xl);
+    overflow:hidden;
+    box-shadow: var(--shadow);
+  }
+  .contact-grid{
+    display:grid; grid-template-columns: 1fr; gap:0;
+  }
+  @media (min-width: 900px){
+    .contact-grid{ grid-template-columns: 1.1fr .9fr }
+  }
+  .contact-media{
+    padding: clamp(16px, 3vw, 22px);
+    background:
+      radial-gradient(700px 120px at 30% 10%, rgba(255,213,74,.16), transparent 60%),
+      radial-gradient(700px 120px at 90% 80%, rgba(255,46,46,.12), transparent 60%),
+      linear-gradient(145deg, #101521, #0c111a);
+    border-right: 1px solid var(--line);
+  }
+  .contact-media h3{
+    margin:0 0 6px; font-size: clamp(18px, 4vw, 26px); font-weight: 900;
+  }
+  .contact-media p{ margin:0; color: var(--muted) }
+  .contact-form{
+    padding: clamp(16px, 3vw, 22px);
+  }
+  .form-row{ display:grid; grid-template-columns: 1fr; gap:10px }
+  @media (min-width: 680px){
+    .form-row.two{ grid-template-columns: 1fr 1fr }
+  }
+  label{
+    display:block; font-size: 13px; color: var(--muted); margin: 2px 2px 6px;
+  }
+  input, select, textarea{
+    width: 100%; padding: 12px 12px; border-radius: 12px; outline: none;
+    border:1px solid var(--line); background: #0e121b; color: var(--text);
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
+  input:focus, select:focus, textarea:focus{
+    border-color: #33405a; box-shadow: 0 0 0 3px rgba(255,213,74,.15);
+  }
+  .helper{
+    font-size: 12px; color: var(--muted); margin-top: 6px;
+  }
+  .submit-row{
+    display:flex; gap:10px; align-items:center; justify-content:flex-end; margin-top: 12px;
+  }
+  .notice{
+    font-size: 12px; color: var(--muted);
+  }
+
+  /* Footer */
+  .footer{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+    border-top:1px solid var(--line); margin-top: 26px; padding-top: 16px;
+    color: var(--muted);
+  }
+
+  /* Mobile helpers */
+  .hide-desktop{ display: inline }
+  .hide-mobile{ display: none }
+  @media (min-width: 820px){
+    .hide-desktop{ display: none }
+    .hide-mobile{ display: inline }
+  }
+
+  /* Subtle motion preference */
+  @media (prefers-reduced-motion: no-preference){
+    .btn:hover{ filter: brightness(1.04) }
+  }
+</style>
+</head>
+<body>
+  <header class="container">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">BN</div>
+        <span>Black&nbsp;November • Imóveis</span>
+      </div>
+      <div class="top-actions">
+        <div class="chip">Condições válidas por tempo limitado</div>
+        <div class="chip hide-mobile">Tabelas sujeitas a alteração</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-title">
+            Luxo, conforto e segurança <span class="title-accent">com descontos de Black November</span>.
+          </h1>
+          <p class="subtitle">Seleção especial com lazer completo, portaria 24h e localizações estratégicas na Barra, Recreio, Freguesia e mais.</p>
+          <div class="hero-pills">
+            <span class="pill">Sol da manhã</span>
+            <span class="pill">Varanda Gourmet</span>
+            <span class="pill">Pronto para morar</span>
+            <span class="pill">Financiamento facilitado</span>
+          </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" onclick="scrollToForm()">Quero ser contatado</button>
+            <button class="btn btn-ghost" onclick="scrollToOfertas()">Ver ofertas</button>
+          </div>
+        </div>
+        <div class="hero-figure">
+          <div class="figure-inner">
+            <div>
+              <div style="font-weight:900; font-size:22px; margin-bottom:6px;">Até R$ 388.000 de desconto</div>
+              <div style="color:var(--muted); font-size:14px">Condições especiais em unidades selecionadas, com lazer completo, closets e vagas de garagem.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTA -->
+    <div class="section-header" id="ofertas">
+      <h2 class="section-title">Ofertas em destaque</h2>
+      <div class="section-sub">Preços “de / por” com selo de desconto</div>
+    </div>
+
+    <section class="grid">
+      <!-- Card 1 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 150.800</div>
+        <div class="card-body">
+          <div class="loc">Recreio • Condomínio de casas</div>
+          <h3 class="title">Casa com 4 suítes • 306,22m² • Segurança 24h</h3>
+          <div class="features">
+            <span class="tag">Piscina</span>
+            <span class="tag">Quadra</span>
+            <span class="tag">Sol da manhã</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 1.999.800</span>
+              <span class="por">por R$ 1.849.000*</span>
+              <span class="discount">Bianco - Casa 15</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Saiba mais</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Quero esta unidade</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 29.500</div>
+        <div class="card-body">
+          <div class="loc">Freguesia • Apartamento</div>
+          <h3 class="title">3 quartos (1 suíte) • 82,5m² • 1 vaga • Lazer completo</h3>
+          <div class="features">
+            <span class="tag">Portaria 24h</span>
+            <span class="tag">Varanda</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 518.500</span>
+              <span class="por">por R$ 489.000*</span>
+              <span class="discount">Unidade 504.02</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Detalhes</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Tenho interesse</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 66.300</div>
+        <div class="card-body">
+          <div class="loc">Freguesia • 3 quartos</div>
+          <h3 class="title">94m² • Closet • 2 banheiros + lavabo • Varanda Gourmet</h3>
+          <div class="features">
+            <span class="tag">Lazer completo</span>
+            <span class="tag">Melhor ponto da Freguesia</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 825.300</span>
+              <span class="por">por R$ 759.000*</span>
+              <span class="discount">Unidade 304</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Ver condições</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Reservar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 255.700</div>
+        <div class="card-body">
+          <div class="loc">Barra da Tijuca • Sala comercial • 450m²</div>
+          <h3 class="title">7 vagas • Em frente ao Península • Alugada até 2028</h3>
+          <div class="features">
+            <span class="tag">Renda mensal R$ 27.145</span>
+            <span class="tag">Retorno imediato</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 3.544.700</span>
+              <span class="por">por R$ 3.289.000*</span>
+              <span class="discount">Evolution II • 402.03</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Quero analisar</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Contato comercial</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 72.100</div>
+        <div class="card-body">
+          <div class="loc">Tijuca • Centro corporativo</div>
+          <h3 class="title">Sala 260m² • 16 vagas • Auditório para eventos</h3>
+          <div class="features">
+            <span class="tag">Localização premium</span>
+            <span class="tag">Próximo ao metrô</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 567.100</span>
+              <span class="por">por R$ 495.000*</span>
+              <span class="discount">Salas 904 + 905 (conjunto)</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Ver especificações</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Solicitar proposta</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="card">
+        <div class="card-media"></div>
+        <div class="badge">- R$ 388.000</div>
+        <div class="card-body">
+          <div class="loc">Jacarepaguá • Loja MAP BAND</div>
+          <h3 class="title">318m² • Melhor custo-benefício do bairro</h3>
+          <div class="features">
+            <span class="tag">Ao lado do RioCentro</span>
+            <span class="tag">Ponto comercial forte</span>
+          </div>
+          <div class="price-box">
+            <div class="price-row">
+              <span class="de">de R$ 3.878.000</span>
+              <span class="por">por R$ 3.490.000*</span>
+              <span class="discount">Unidade 1.032</span>
+            </div>
+          </div>
+          <div class="card-foot">
+            <button class="btn-mini" onclick="scrollToForm()">Detalhes</button>
+            <button class="btn-mini primary" onclick="scrollToForm()">Quero visitar</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="contact" id="contato">
+      <div class="contact-grid">
+        <div class="contact-media">
+          <h3>Fale com um consultor</h3>
+          <p>Preencha o formulário ao lado para receber condições atualizadas, disponibilidade e simulações de financiamento.</p>
+          <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+            <span class="pill">Atendimento rápido</span>
+            <span class="pill">Sem compromisso</span>
+            <span class="pill">Horário comercial</span>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="return handleFakeSubmit(event)">
+          <div class="form-row two">
+            <div>
+              <label for="nome">Nome completo</label>
+              <input id="nome" name="nome" required placeholder="Ex.: Maria Silva" />
+            </div>
+            <div>
+              <label for="telefone">Telefone / WhatsApp</label>
+              <input id="telefone" name="telefone" required placeholder="(DDD) 90000-0000" />
+            </div>
+          </div>
+          <div class="form-row two" style="margin-top:10px">
+            <div>
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" required placeholder="voce@email.com" />
+            </div>
+            <div>
+              <label for="interesse">Empreendimento de interesse</label>
+              <select id="interesse" name="interesse">
+                <option value="">Selecione...</option>
+                <option>Casa 4 suítes (Recreio)</option>
+                <option>3 quartos • 82,5m² (Freguesia)</option>
+                <option>3 quartos • 94m² (Freguesia)</option>
+                <option>Sala 450m² (Barra)</option>
+                <option>Loja 318m² (Jacarepaguá)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="margin-top:10px">
+            <div>
+              <label for="mensagem">Mensagem (opcional)</label>
+              <textarea id="mensagem" name="mensagem" rows="4" placeholder="Conte rapidamente o que você procura."></textarea>
+              <div class="helper">Ao enviar, um consultor entrará em contato no próximo horário útil. Não enviaremos spam.</div>
+            </div>
+          </div>
+          <div class="submit-row">
+            <span class="notice hide-mobile">*Sujeito à disponibilidade e alteração de preços sem aviso prévio.</span>
+            <button type="submit" class="btn btn-primary">Quero ser contatado</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Black November — Ofertas Imobiliárias</span>
+      <span>*Condições promocionais até 30/11/2025. Consulte um consultor.</span>
+    </footer>
+  </main>
+
+<script>
+  function scrollToOfertas(){
+    document.getElementById('ofertas').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function scrollToForm(){
+    document.getElementById('contato').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function handleFakeSubmit(e){
+    e.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const interesse = document.getElementById('interesse').value;
+    const msg = [
+      'Sua solicitação foi registrada ✅',
+      nome ? 'Nome: ' + nome : null,
+      interesse ? 'Interesse: ' + interesse : null,
+      '',
+      'Um consultor entrará em contato no próximo horário útil.'
+    ].filter(Boolean).join('\n');
+    alert(msg);
+    e.target.reset();
+    return false;
+  }
+</script>
+</body>
+</html>
