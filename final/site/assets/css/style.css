@@ -1063,4 +1063,8 @@
        /* opcional: dar uma “encostada” na arte do banner no mobile */
        @media (max-width: 760px) {
            .promo {
-               margin-top
+               margin-top: -8px;
+           }
+
+           /* ajuste fino: encosta na imagem do hero */
+       }
