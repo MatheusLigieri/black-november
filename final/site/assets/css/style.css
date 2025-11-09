@@ -877,7 +877,7 @@
        }
 
        .bonus-text {
-            text-align: center;
+           text-align: center;
            font-size: clamp(14px, 2.4vw, 16px);
            font-weight: 800;
        }
@@ -940,3 +940,127 @@
            text-align: center;
            font-size: clamp(13px, 2.2vw, 16px);
        }
+
+       /* ===================== PROMO (tweaks mobile) ===================== */
+
+       /* base já é mobile-first; estes ajustes refinam telas pequenas */
+       @media (max-width: 760px) {
+
+           .promo-stack {
+               gap: 12px;
+               padding-top: 12px;
+               padding-bottom: 16px;
+           }
+
+           /* pílula ocupa toda a largura para leitura e toque */
+           .bar-milhao {
+               width: 100%;
+               padding: 10px 12px;
+               border-radius: 12px;
+               line-height: 1.15;
+               gap: 6px 6px;
+           }
+
+           .bar-milhao .txt {
+               font-size: 13px;
+               /* força um pouco menor no mobile */
+           }
+
+           .bar-milhao .hl-red {
+               font-size: 22px;
+           }
+
+           .bar-milhao .de-reais {
+               font-size: 11px;
+               letter-spacing: .4px;
+           }
+
+           /* card bônus: vira bloco único com ícone acima, texto central */
+           .bonus-card {
+               grid-template-columns: 1fr;
+               justify-items: center;
+               text-align: center;
+               padding: 12px;
+               border-radius: 12px;
+           }
+
+           .bonus-ico {
+               width: 32px;
+               height: 32px;
+               margin-bottom: 6px;
+           }
+
+           .bonus-text {
+               font-size: 14px;
+               line-height: 1.25;
+           }
+
+           .bonus-text .muted {
+               display: block;
+               /* quebra a parte “20 clientes*” para 2ª linha */
+               margin: 4px 0 0;
+               opacity: .9;
+           }
+
+           /* grade dos benefícios: 2 colunas estáveis e tap-friendly */
+           .benefits {
+               grid-template-columns: repeat(2, minmax(0, 1fr));
+               gap: 8px;
+           }
+
+           .benefits li {
+               padding: 10px 6px;
+               gap: 6px;
+           }
+
+           .b-ico {
+               width: 40px;
+               height: 40px;
+           }
+
+           .b-ico svg {
+               width: 20px;
+               height: 20px;
+           }
+
+           .b-title {
+               font-size: 12px;
+               line-height: 1.2;
+           }
+
+           /* frase final com respiro lateral extra */
+           .promo-lead {
+               font-size: 13px;
+               padding: 0 8px;
+               margin-top: 2px;
+           }
+       }
+
+       /* telas muito estreitas: segura quebras e alturas */
+       @media (max-width: 420px) {
+           .bar-milhao {
+               padding: 9px 10px;
+           }
+
+           .bar-milhao .hl-red {
+               font-size: 20px;
+           }
+
+           .bonus-text {
+               font-size: 13.5px;
+           }
+
+           .b-ico {
+               width: 38px;
+               height: 38px;
+           }
+
+           .b-title {
+               font-size: 11.5px;
+           }
+       }
+
+       /* opcional: dar uma “encostada” na arte do banner no mobile */
+       @media (max-width: 760px) {
+           .promo {
+               margin-top
