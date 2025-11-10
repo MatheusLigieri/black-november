@@ -940,11 +940,11 @@
 
        .bar-milhao .txt {
            opacity: .95;
-           font-size: clamp(17px, 2.0vw, 19px);
+           font-size: clamp(17px, 2.0vw, 24px);
        }
 
        .bar-milhao .hl-red {
-           font-size: clamp(18px, 4.6vw, 28px);
+           font-size: clamp(18px, 4.6vw, 38px);
            letter-spacing: .5px;
            background: linear-gradient(180deg, #ffb3b3, #ff1f1f 58%, #ac0b0b);
            -webkit-background-clip: text;
@@ -957,7 +957,7 @@
            color: #ff5252;
            font-weight: 900;
            letter-spacing: .6px;
-           font-size: clamp(10px, 1.6vw, 12px);
+           font-size: clamp(10px, 1.6vw, 16px);
        }
 
        /* Card vermelho do bônus */
@@ -985,7 +985,7 @@
 
        .bonus-text {
            text-align: center;
-           font-size: clamp(14px, 2.4vw, 16px);
+           font-size: clamp(14px, 2.4vw, 20px);
            font-weight: 800;
        }
 
